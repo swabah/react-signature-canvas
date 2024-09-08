@@ -1,4 +1,4 @@
-# React Signature Canvas App (with Vite)
+# React Signature Canvas App
 
 This is a responsive React application created using Vite, allowing users to draw a signature on a canvas, preview it, and download it as an image. The project utilizes `react-signature-canvas` for handling signature inputs, `react-icons` for adding icons, and Tailwind CSS for styling.
 
