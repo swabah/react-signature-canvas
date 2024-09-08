@@ -13,7 +13,7 @@ This is a responsive React application created using Vite, allowing users to dra
 
 ## Demo
 
-View the live demo of the app here: https://swabah.github.io/react-signature-canvas/(#)
+View the live demo of the app here: https://swabah.github.io/react-signature-canvas/
 
 ## Getting Started
 
