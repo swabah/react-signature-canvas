@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
-import { FaTrash, FaEye, FaDownload, FaSpinner } from 'react-icons/fa';
+import { FaTrash, FaEye, FaDownload } from 'react-icons/fa'; // Importing icons
 
 function App() {
-  const [sign, setSign] = useState();
-  const [url, setUrl] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
+  const [sign, setSign] = useState(null);
+  const [url, setUrl] = useState(null);
 
-  const scrollToSignature = () => {
+  const scrolltoSignature = () => {
     const element = document.getElementById('Previewsignature');
     if (element) {
       element.scrollIntoView({
@@ -22,17 +20,33 @@ function App() {
   const handleClear = () => {
     sign.clear();
     setUrl('');
-    setShowPreview(false);
   };
 
   const handlePreview = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setUrl(sign.getTrimmedCanvas().toDataURL('image/png'));
-      setShowPreview(true);
-      scrollToSignature();
-      setIsLoading(false);
-    }, 1000); // Simulating a 1-second delay for loading
+    setUrl(sign.getTrimmedCanvas().toDataURL('image/png'));
+    scrolltoSignature();
+  };
+
+  const handleDownload = (quality) => {
+    const canvas = sign.getTrimmedCanvas();
+    const scale = quality === 'high' ? 4 : 1; // 4 times larger for 4K
+
+    // Set canvas dimensions for 4K or regular quality
+    const highQualityCanvas = document.createElement('canvas');
+    highQualityCanvas.width = canvas.width * scale;
+    highQualityCanvas.height = canvas.height * scale;
+    const context = highQualityCanvas.getContext('2d');
+
+    // Scale and redraw the signature
+    context.scale(scale, scale);
+    context.drawImage(canvas, 0, 0);
+
+    // Download the image in the desired quality
+    const downloadUrl = highQualityCanvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = quality === 'high' ? 'signature_4k.png' : 'signature.png';
+    link.click();
   };
 
   return (
@@ -59,21 +73,12 @@ function App() {
             <button
               className="flex items-center gap-2 px-4 py-2 text-white capitalize transition-all duration-300 bg-green-700 rounded-full hover:bg-green-600"
               onClick={handlePreview}
-              disabled={isLoading}
             >
-              {isLoading ? (
-                <>
-                  <FaSpinner className="animate-spin" /> Loading...
-                </>
-              ) : (
-                <>
-                  <FaEye /> Preview
-                </>
-              )}
+              <FaEye /> Preview
             </button>
           )}
         </div>
-        {showPreview && url && (
+        {url && (
           <>
             <hr className="w-full my-4 border-t border-gray-300" />
             <div className="overflow-hidden rounded-lg">
@@ -85,11 +90,22 @@ function App() {
                 className="rounded-lg lg:p-5"
               />
             </div>
-            <a href={url} target="_blank" rel="noopener noreferrer" download>
-              <button className="flex items-center gap-2 p-2 px-5 mt-3 text-white transition-all duration-300 bg-green-700 rounded-full hover:bg-green-600">
-                <FaDownload /> Download Signature
+            <div className="flex gap-5">
+              <button
+                className="flex flex-col items-center gap-2 p-4 px-5 mt-3 text-white transition-all duration-300 bg-green-700 rounded-full md:p-2 md:gap-2 md:flex-row hover:bg-green-600"
+                onClick={() => handleDownload('low')}
+              >
+                <FaDownload className='text-xl md:text-base' />
+                <span> Low Quality</span>
               </button>
-            </a>
+              <button
+                className="flex flex-col items-center gap-2 p-4 px-5 mt-3 text-white transition-all duration-300 bg-green-700 rounded-full md:p-2 md:gap-2 md:flex-row hover:bg-green-600"
+                onClick={() => handleDownload('high')}
+              >
+                <FaDownload className='text-xl md:text-base' />
+                <span> 4K Quality</span>
+              </button>
+            </div>
           </>
         )}
       </div>
