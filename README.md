@@ -1,7 +1,3 @@
-Here's a tailored `README.md` file for your project, reflecting the use of React with Vite for the setup:
-
----
-
 # React Signature Canvas App (with Vite)
 
 This is a responsive React application created using Vite, allowing users to draw a signature on a canvas, preview it, and download it as an image. The project utilizes `react-signature-canvas` for handling signature inputs, `react-icons` for adding icons, and Tailwind CSS for styling.
@@ -30,8 +26,8 @@ View the live demo of the app here: [Deployed Link](#)
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/react-signature-canvas-vite.git
-   cd react-signature-canvas-vite
+   git clone https://github.com/your-username/react-signature-canvas.git
+   cd react-signature-canvas
    ```
 
 2. **Install dependencies**:
@@ -111,7 +107,3 @@ Contributions, issues, and feature requests are welcome! Feel free to fork this 
 ## License
 
 This project is licensed under the MIT License.
-
----
-
-This `README.md` file covers all necessary instructions, including setup using Vite, and provides a clear overview of the project's structure and usage. Don't forget to replace the placeholder values like the GitHub repository link and demo URL with actual values from your project.
